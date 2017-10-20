@@ -1,0 +1,9 @@
+blogger_about:
+  path:       /about
+  defaults: { _controller: BloggerBlogBundle:Page:about }
+  requirements:
+    _method: GET
+
+index:
+    path:     /
+    defaults: { _controller: BloggerBlogBundle:Page:index }
