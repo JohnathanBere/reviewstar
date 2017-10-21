@@ -1,0 +1,14 @@
+Blogger\BlogBundle\BlogUser:
+    type: entity
+    table: ws_users
+    id:
+        id:
+            type:
+            generator: { strategy: AUTO }
+        fields:
+            username:
+                type: string
+                length: 255
+            password:
+                type: string
+                length: 255
