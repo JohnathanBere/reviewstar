@@ -2,6 +2,7 @@
 
 namespace Blogger\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -14,6 +15,11 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="user")
+     */
+    private $posts;
+
+    /**
      * @var int
      *
      * @ORM\Id
@@ -25,6 +31,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->products = new ArrayCollection();
     }
 }
 

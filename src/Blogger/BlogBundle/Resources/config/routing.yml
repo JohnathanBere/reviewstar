@@ -8,6 +8,10 @@ blogger_login:
   path:     /login
   defaults: { _controller: FOSUserBundle:Security:login }
 
+blogger_logout:
+  path:     /logout
+  defaults: { _controller: FOSUserBundle:Security:logout }
+
 index:
     path:     /
     defaults: { _controller: BloggerBlogBundle:Page:index }

@@ -39,7 +39,11 @@
                             <li><a href="{{ path('index') }}">Home</a></li>
                             <li><a href="{{ path('blogger_about') }}">About</a></li>
                             <li><a href="#">Contact</a></li>
-                            <li><a href="{{ path('blogger_login') }}">Login</a></li>
+                            {% if is_granted("ROLE_USER") %}
+                                <li><a href="{{ path('blogger_logout') }}">Logout</a></li>
+                            {% else %}
+                                <li><a href="{{ path('blogger_login') }}">Login</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

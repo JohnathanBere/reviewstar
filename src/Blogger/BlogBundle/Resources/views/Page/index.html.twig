@@ -6,5 +6,5 @@
 {% endblock %}
 
 {% block body %}
-    Blog homepage
+    <h1>Welcome{% if is_granted("ROLE_USER") %}{{ ', ' ~ app.user.username }}{% endif %}</h1>
 {% endblock %}
