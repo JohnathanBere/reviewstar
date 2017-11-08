@@ -7,4 +7,16 @@
 
 {% block body %}
     <h1>Welcome{% if is_granted("ROLE_USER") %}{{ ', ' ~ app.user.username }}{% endif %}</h1>
+
+    {% for post in blogPosts %}
+        <article>
+            <h2><a href="{{ path('blogger_post_view',{id : post.id}) }} ">
+                    {{ post.title | title }} </a></h2>
+            <p>{{ post.content | nl2br }} </p>
+            <p>
+                <small>Created by {{ post.user }} at
+                    {{ post.created | date('H:i d/m/y') }} </small>
+            </p>
+        </article>
+    {% endfor %}
 {% endblock %}

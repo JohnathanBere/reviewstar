@@ -3,6 +3,7 @@
 namespace Blogger\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Post
@@ -40,6 +41,11 @@ class Post
      * @ORM\Column(name="message", type="string", length=999)
      */
     private $message;
+
+    /**
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
 
     /**
@@ -98,6 +104,47 @@ class Post
     public function getMessage()
     {
         return $this->message;
+    }
+
+
+    /**
+     * Set date created
+     *
+     * @return Post
+     */
+    public function setCreated(\DateTime $created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get date created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param $user
+     * @return Post
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return user
+     */
+    public function getUser() {
+        return $this->user;
     }
 }
 
