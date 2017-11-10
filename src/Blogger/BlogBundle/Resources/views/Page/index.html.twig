@@ -12,7 +12,7 @@
         <article>
             <h2><a href="{{ path('blogger_post_view',{id : post.id}) }} ">
                     {{ post.title | title }} </a></h2>
-            <p>{{ post.content | nl2br }} </p>
+            <p>{{ post.message | nl2br }} </p>
             <p>
                 <small>Created by {{ post.user }} at
                     {{ post.created | date('H:i d/m/y') }} </small>
