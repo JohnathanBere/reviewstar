@@ -19,7 +19,9 @@ class AppKernel extends Kernel
             new Blogger\BlogBundle\BloggerBlogBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new ReviewStar\UserBundle\ReviewStarUserBundle(),
+            new ReviewStar\BookBundle\ReviewStarBookBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

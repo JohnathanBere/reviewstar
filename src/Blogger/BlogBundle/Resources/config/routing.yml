@@ -4,17 +4,9 @@ blogger_about:
   requirements:
     _method: GET
 
-blogger_login:
-  path:     /login
-  defaults: { _controller: FOSUserBundle:Security:login }
-
-blogger_logout:
-  path:     /logout
-  defaults: { _controller: FOSUserBundle:Security:logout }
-
-index:
-    path:     /
-    defaults: { _controller: BloggerBlogBundle:Page:index }
+#index:
+#    path:     /
+#    defaults: { _controller: BloggerBlogBundle:Page:index }
 
 blogger_post_view:
     path:     /view/{id}

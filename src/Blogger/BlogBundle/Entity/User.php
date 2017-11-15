@@ -31,7 +31,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->products = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 }
 

@@ -1,0 +1,4 @@
+services:
+#    review_star_user.example:
+#        class: ReviewStar\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

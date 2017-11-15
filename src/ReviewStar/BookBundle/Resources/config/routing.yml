@@ -1,0 +1,3 @@
+rs_book_index:
+  path: /
+  defaults: { _controller: ReviewStarBookBundle:Page:index }
