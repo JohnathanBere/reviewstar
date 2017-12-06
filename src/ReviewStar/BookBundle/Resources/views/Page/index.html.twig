@@ -1,4 +1,16 @@
-{% extends "::base.html.twig" %}
+{% extends "ReviewStarBookBundle::layout.html.twig" %}
 {% block body %}
-    Nigger
+    {% for book in books %}
+        <div>
+            <a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a>
+        </div>
+    {% endfor %}
+
+    {% if pageCount > 1 %}
+        {% for page in 1..pageCount %}
+            <a href="{{ path('index', { 'page':page}) }}">
+                {{ page }}
+            </a>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

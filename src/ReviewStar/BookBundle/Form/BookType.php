@@ -1,8 +1,9 @@
 <?php
 namespace ReviewStar\BookBundle\Form;
 
-use Doctrine\DBAL\Types\DateType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,12 +17,16 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('bookAuthor', [ 'placeholder' => 'Enter the name of the author'])
-            ->add('bookTitle', [ 'placeholder' => 'Enter the name of the book' ])
-            ->add('bookPublisher', [ 'placeholder' => 'Enter the name of the publisher' ])
-            ->add('bookPublishdate', DateType::class, [ 'placeholder' => 'Enter the date when the book published' ])
+            ->add('bookAuthor')
+            ->add('bookTitle')
+            ->add('bookPublisher')
+            ->add('bookPublishdate', DateType::class)
             ->add('bookSynopsis', TextareaType::class, [
                 'attr' => array('placeholder' => 'Write a synopsis')
+            ])
+            ->add('bookCover', FileType::class, [
+                'label' => 'Book Cover',
+                'data_class' => null
             ])
             ->add('submit', SubmitType::class);
     }

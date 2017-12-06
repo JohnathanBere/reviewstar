@@ -10,4 +10,29 @@ namespace ReviewStar\BookBundle\Repository;
  */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function countBooks()
+    {
+        $qb = $this->createQueryBuilder("book");
+        $qb->select("COUNT(book)");
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return $count;
+    }
+
+    public function getBooksByUser($userId)
+    {
+        $dql = $this->createQueryBuilder("book")->where("book.user_id = " . $userId);
+        $dql->getQuery();
+    }
+
+    public function getLatest($limit, $offset) {
+        $queryBuilder = $this->createQueryBuilder('book');
+
+        $queryBuilder->orderBy('book.created', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
 }

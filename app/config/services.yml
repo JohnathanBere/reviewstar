@@ -37,3 +37,20 @@ services:
     app.redirect_after_registration_subscriber:
       class: AppBundle\EventListener\RedirectAfterRegistrationSubscriber
       autowire: true
+
+    ReviewStar\BookBundle\:
+      resource: '../../src/ReviewStar/BookBundle/*'
+      exclude: '../../src/ReviewStar/BookBundle/{Entity,Repository,Tests}'
+
+    ReviewStar\BookBundle\Controller\:
+      resource: '../../src/ReviewStar/BookBundle/Controller'
+      public: true
+
+    reviewstar.book_controller:
+      class: ReviewStar\BookBundle\Controller\BookController
+      arguments: ['@doctrine.orm.entity_manager','@reviewstar.book_service']
+
+
+    reviewstar.book_service:
+      class: ReviewStar\BookBundle\Service\BookService
+      arguments: ['@doctrine.orm.entity_manager']

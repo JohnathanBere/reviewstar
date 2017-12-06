@@ -1,6 +1,6 @@
 <?php
 
-namespace ReviewStar\UserBundle\Repository;
+namespace ReviewStar\BookBundle\Repository;
 
 /**
  * UserRepository

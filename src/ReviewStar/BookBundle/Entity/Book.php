@@ -3,7 +3,8 @@
 namespace ReviewStar\BookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ReviewStar\UserBundle\Entity\User as OriginalPoster;
+use ReviewStar\BookBundle\Entity\User as OriginalPoster;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Book
@@ -23,7 +24,7 @@ class Book
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ReviewStar\UserBundle\Entity\User", inversedBy="books")
+     * @ORM\ManyToOne(targetEntity="ReviewStar\BookBundle\Entity\User", inversedBy="books")
      * @ORM\JoinColumn(name="rs_user_id", referencedColumnName="id")
      */
     private $user;
@@ -52,13 +53,13 @@ class Book
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="book_publishdate", type="datetimetz", nullable=true)
+     * @ORM\Column(name="book_publishdate", type="datetime", nullable=true)
      */
     private $bookPublishdate;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Please put an image")
      * @ORM\Column(name="book_cover", type="string", length=255, nullable=true)
      */
     private $bookCover;
@@ -76,6 +77,13 @@ class Book
      * @ORM\Column(name="book_synopsis", type="string", length=255, nullable=true)
      */
     private $bookSynopsis;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_created", type="datetime")
+     */
+    private $created;
 
 
     /**
@@ -259,19 +267,43 @@ class Book
     /**
      * Set bookSynopsis
      *
-     * @param OriginalPoster $user
+     * @param \DateTime $created
      *
      * @return Book
      */
-    public function setUser(OriginalPoster $user)
+    public function setCreated($created)
     {
-        $this->$user = $user;
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get bookSynopsis
+     * Get created
+     *
+     * @return \DateTIme
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set user
+     *
+     * @param OriginalPoster $user
+     *
+     * @return OriginalPoster
+     */
+    public function setUser(OriginalPoster $user)
+    {
+        $this->user = $user;
+
+        return $this->user;
+    }
+
+    /**
+     * Get user
      *
      * @return OriginalPoster
      */

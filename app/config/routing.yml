@@ -2,10 +2,6 @@ review_star_book:
     resource: "@ReviewStarBookBundle/Resources/config/routing.yml"
     prefix:   /
 
-review_star_user:
-    resource: "@ReviewStarUserBundle/Resources/config/routing.yml"
-    prefix:   /
-
 blogger_blog:
     resource: "@BloggerBlogBundle/Resources/config/routing.yml"
     prefix:   /

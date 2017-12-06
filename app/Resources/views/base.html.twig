@@ -7,7 +7,7 @@
         <title>{% block title %} ReviewStar {% endblock %} - ReviewStar</title>
         {% block stylesheets %}
             {% stylesheets
-            'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+            'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css'
             '../app/Resources/public/css/screen.css' %}
             <link href="{{ asset_url }} " type="text/css" rel="stylesheet"/>
             {% endstylesheets %}
@@ -33,14 +33,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('rs_book_index') }}">ReviewStar</a>
+                    <a class="navbar-brand" href="{{ path('index', {'page':1}) }}">ReviewStar</a>
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="{{ path('rs_book_index') }}">Home</a></li>
+                            <li><a href="{{ path('index', {'page':1}) }}">Home</a></li>
                             <li><a href="{{ path('blogger_about') }}">About</a></li>
                             <li><a href="#">Contact</a></li>
                             {% if is_granted("ROLE_USER") %}
-                                <li><a href="{{ path('blogger_logout') }}">Logout</a></li>
+                                <li><a href="{{ path('rs_user_logout') }}">Logout</a></li>
                                 <li><a href="{{ path('blogger_post_create') }}">Create a post</a></li>
                             {% else %}
                                 <li><a href="{{ path('rs_user_login') }}">Login</a></li>

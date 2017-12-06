@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new ReviewStar\UserBundle\ReviewStarUserBundle(),
             new ReviewStar\BookBundle\ReviewStarBookBundle()
         ];
 

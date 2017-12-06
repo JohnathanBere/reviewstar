@@ -1,6 +1,6 @@
 <?php
 
-namespace ReviewStar\UserBundle\Entity;
+namespace ReviewStar\BookBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +10,7 @@ use FOS\UserBundle\Model\User as BasedUser;
  * User
  *
  * @ORM\Table(name="rs_users")
- * @ORM\Entity(repositoryClass="ReviewStar\UserBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="ReviewStar\BookBundle\Repository\UserRepository")
  */
 class User extends BasedUser
 {

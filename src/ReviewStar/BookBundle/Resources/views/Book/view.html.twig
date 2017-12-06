@@ -1,0 +1,13 @@
+{% extends "ReviewStarBookBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ book.bookTitle }}
+{% endblock %}
+
+{% block body %}
+    <h1>Viewing {{ book.bookTitle  }}</h1>
+    <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" width="500" height="500"/>
+    {% if book.user == app.user %}
+        <a href="{{ path('rs_book_edit', { id: book.id }) }}">Edit</a>
+    {% endif  %}
+{% endblock %}
