@@ -25,7 +25,7 @@ class ReviewController extends Controller
 
     public function createAction(Request $request, $bookId) {
         $book = $this->bookService->getBook($bookId);
-        $reviews = $this->reviewService->getAllReviewsByUserId($this->getUser()->getId());
+        $reviews = $this->getUser() ? $this->reviewService->getAllReviewsByUserId($this->getUser()->getId()) : null;
         if ($this->getUser() && !empty($book) && count($reviews) == 0) {
             $review = new Review();
             $form = $this->createForm(ReviewType::class, $review, [

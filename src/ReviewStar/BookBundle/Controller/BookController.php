@@ -38,7 +38,8 @@ class BookController extends Controller {
         }
 
         return $this->render("ReviewStarBookBundle:Book:view.html.twig", [
-            'book' => $book
+            'book' => $book,
+            'currentUser' => $this->getUser()
         ]);
     }
 

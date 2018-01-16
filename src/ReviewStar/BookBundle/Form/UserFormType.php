@@ -1,5 +1,7 @@
 <?php
+
 namespace ReviewStar\BookBundle\Form;
+
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -9,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReviewType extends AbstractType
+class UserFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,24 +19,18 @@ class ReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reviewTitle', TextType::class, [ 'label' => 'Title' ])
-            ->add('reviewRating', ChoiceType::class, [
-                'label' => 'Rate this book',
+            ->add('username', TextType::class, [ 'label' => 'Username' ])
+            ->add('roles', ChoiceType::class, [
+                'label' => 'Gain additional privileges',
                 'choices' => [
-                    '0' => 0.0,
-                    '1' => 1.0,
-                    '2' => 2.0,
-                    '3' => 3.0,
-                    '4' => 4.0,
-                    '5' => 5.0
+                    'Moderator' => 'ROLE_MOD',
+                    'Book Admin' => 'ROLE_BOOK_ADMIN',
+                    'User Admin' => 'ROLE_USER_ADMIN',
+                    'Site Admin' => 'ROLE_SITE_ADMIN'
                 ],
                 'expanded' => true,
-                'multiple' => false,
-                'preferred_choices' => '0'
-            ])
-            ->add('reviewContent', TextareaType::class, [
-                'label' => 'Message',
-                'attr' => [ 'placeholder' => 'Write a review' ]
+                'multiple' => true,
+                'required' => false
             ])
             ->add('submit', SubmitType::class);
         ;
@@ -46,7 +42,7 @@ class ReviewType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ReviewStar\BookBundle\Entity\Review'
+            'data_class' => 'ReviewStar\BookBundle\Entity\User'
         ));
     }
 
@@ -55,6 +51,6 @@ class ReviewType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'reviewstar_bookbundle_review';
+        return 'reviewstar_bookbundle_user';
     }
 }

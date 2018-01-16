@@ -29,6 +29,14 @@ class User extends BasedUser
     private $books;
 
     /**
+     * @return mixed
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
      * @ORM\OneToMany(targetEntity="ReviewStar\BookBundle\Entity\Review", mappedBy="user")
      */
     private $reviews;

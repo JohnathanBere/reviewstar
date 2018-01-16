@@ -26,6 +26,14 @@ rs_book_delete:
   requirements:
     id: \d+
 
+rs_book_search:
+  path: /search
+  defaults: { _controller: ReviewStarBookBundle:Page:search }
+
+rs_handle_search:
+  path: /results
+  defaults: { _controller: ReviewStarBookBundle:Page:handleSearch }
+
 rs_review_create:
   path: /book/{bookId}/review/create
   defaults: { _controller: ReviewStarBookBundle:Review:create }
@@ -45,6 +53,16 @@ rs_review_delete:
   requirements:
     id: \d+
     bookId: \d+
+
+rs_user_catalog:
+  path: /users
+  defaults: { _controller: ReviewStarBookBundle:Page:userIndex }
+
+rs_user_edit:
+  path: /users/edit/{id}
+  defaults: { _controller: ReviewStarBookBundle:Page:userEdit }
+  requirements:
+    id: \d+
 
 rs_user_login:
   path:     /login

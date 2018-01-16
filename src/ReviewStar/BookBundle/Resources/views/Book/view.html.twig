@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1>Viewing {{ book.bookTitle  }}</h1>
-    <h4><strong>Average Rating: </strong>{{ book.getAverageRating()|number_format(1, '.', ',') }}</h4>
+    <h4><strong>Average Rating: </strong>{{ book.getAverageRating()|number_format(1, '.', ',') }}/5.0</h4>
     <h4><strong>Author:</strong> {{ book.bookAuthor }}</h4>
     <h4><strong>Publisher:</strong> {{ book.bookPublisher }}</h4>
     <h4><strong>Year Published:</strong> {{ book.bookPublishDate|date("Y") }}</h4>
@@ -21,7 +21,7 @@
     {% endif  %}
     <br />
     <br />
-    {% if book.getReviews().count > 0 %}
+    {% if book.getReviews()|length > 0 %}
         {% for review in book.getReviews() %}
             <div class="panel {{ review.getUser() == app.user ? 'panel-success' : 'panel-default'}}">
                 <div class="panel-heading">
@@ -39,8 +39,24 @@
                 </div>
             </div>
         {%  endfor %}
-        <a href="{{ path("rs_review_create", {"bookId" : book.id }) }}">Write a new review</a>
+        {% if currentUser.getReviews()|length > 0 %}
+            {% set reviewArray = [] %}
+
+            {% for review in currentUser.getReviews() %}
+                {% if review.getBook().getId() == book.id %}
+                    {% set reviewArray = reviewArray|merge([review]) %}
+                {% endif %}
+            {% endfor %}
+
+            {% if reviewArray|length == 0 %}
+                <a href="{{ path("rs_review_create", {"bookId" : book.id }) }}">Write a new review</a>
+            {% endif %}
+        {% endif %}
     {% else %}
-        <p>Currently empty, be the first to <a href="{{ path("rs_review_create", {"bookId" : book.id }) }}">write a review</a></p>
+        {% if is_granted("ROLE_USER") %}
+            <p>Currently empty, be the first to <a href="{{ path("rs_review_create", {"bookId" : book.id }) }}">write a review</a></p>
+        {% endif %}
     {% endif %}
+
+    <br />
 {% endblock %}

@@ -42,4 +42,25 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
         $offSet = ($currentPage - 1) * $booksPerPage;
         return $this->getLatest($booksPerPage, $offSet);
     }
+
+    public function getBooksBySearch($string, $filter) {
+        $dql = $this->createQueryBuilder("book")
+            ->where($this->processFilterChoice($filter))
+            ->setParameter('term', '%' . $string . '%');
+        $query = $dql->getQuery();
+        return $query->getResult();
+    }
+
+    public function processFilterChoice($filter) {
+        switch($filter) {
+            case 'author':
+                return 'book.bookAuthor LIKE :term';
+            case 'title':
+                return 'book.bookTitle LIKE :term';
+            case 'publisher':
+                return 'book.bookPublisher LIKE :term';
+            default:
+                return 'book.bookTitle LIKE :term';
+        }
+    }
 }

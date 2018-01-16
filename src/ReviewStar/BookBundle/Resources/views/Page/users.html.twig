@@ -1,0 +1,39 @@
+{% extends "ReviewStarBookBundle::layout.html.twig" %}
+{% block body %}
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>User</th>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <th>Roles</th>
+                    <th>Configuration</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.username }}
+                        {#<span class="{{ user.hasRole('ROLE_ADMIN') ? 'label label-success' : '' }}"></span>#}
+                        {% if user.hasRole('ROLE_ADMIN') %}
+                            <span class="label label-primary">Administrator</span>
+                        {% endif %}
+                    </td>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <td>
+                            <ul>
+                                {% for role in user.roles %}
+                                    <li>{{  role }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="{{ path('rs_user_edit', {'id': user.id}) }}">Edit this user</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
