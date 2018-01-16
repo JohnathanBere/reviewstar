@@ -12,8 +12,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 {
     public function countBooks()
     {
-        $qb = $this->createQueryBuilder("book");
-        $qb->select("COUNT(book)");
+        $qb = $this->createQueryBuilder('book');
+        $qb->select('COUNT(book)');
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
     }
@@ -21,18 +21,25 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
     public function getBooksByUser($userId)
     {
         $dql = $this->createQueryBuilder("book")->where("book.user_id = " . $userId);
-        $dql->getQuery();
+        $query = $dql->getQuery();
+        return $query->getResult();
     }
 
     public function getLatest($limit, $offset) {
         $queryBuilder = $this->createQueryBuilder('book');
 
-        $queryBuilder->orderBy('book.created', 'DESC')
+        $queryBuilder
+            ->orderBy('book.created', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
         $query = $queryBuilder->getQuery();
 
         return $query->getResult();
+    }
+
+    public function getPage($booksPerPage, $currentPage) {
+        $offSet = ($currentPage - 1) * $booksPerPage;
+        return $this->getLatest($booksPerPage, $offSet);
     }
 }

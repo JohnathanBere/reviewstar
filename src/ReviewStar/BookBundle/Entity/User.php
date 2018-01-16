@@ -28,6 +28,10 @@ class User extends BasedUser
      */
     private $books;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ReviewStar\BookBundle\Entity\Review", mappedBy="user")
+     */
+    private $reviews;
 
     /**
      * Get id
@@ -43,6 +47,7 @@ class User extends BasedUser
     {
         parent::__construct();
         $this->books = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 }
 

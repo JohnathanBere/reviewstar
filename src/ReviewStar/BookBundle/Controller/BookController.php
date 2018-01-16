@@ -36,6 +36,7 @@ class BookController extends Controller {
         {
             return $this->render("ReviewStarBookBundle:Page:index.html.twig");
         }
+
         return $this->render("ReviewStarBookBundle:Book:view.html.twig", [
             'book' => $book
         ]);
@@ -44,11 +45,9 @@ class BookController extends Controller {
     public function createAction(Request $request) {
         if ($this->getUser()) {
             $book = new Book();
-
             $form = $this->createForm(BookType::class, $book, [
                 'action' => $request->getUri()
             ]);
-
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -69,16 +68,16 @@ class BookController extends Controller {
     public function editAction($id, Request $request) {
         $book = $this->bookService->getBook($id);
 
-        if ($book) {
+        if (!empty($book)) {
             if ($book->getUser() == $this->getUser())
             {
                 $form = $this->createForm(BookType::class, $book, [
                     'action' => $request->getUri()
                 ]);
-
                 $form->handleRequest($request);
 
                 if ($form->isValid()) {
+                    //$this->fileHelper($book);
                     $this->emi->flush();
                     return $this->redirect($this->generateUrl('rs_book_view',
                         ['id' => $book->getId()]));
@@ -94,7 +93,12 @@ class BookController extends Controller {
     }
 
     public function deleteAction($id) {
-        $this->emi->remove($this->bookService->getBook($id));
-        $this->emi->flush();
+        $book = $this->bookService->getBook($id);
+        if (!empty($book) && $this->getUser() == $book->getUser()) {
+            $this->emi->remove($book);
+            $this->emi->flush();
+            return $this->redirect($this->generateUrl('index'));
+        }
+        return $this->redirect($this->generateUrl('rs_book_view', [ 'id' => $book->getId()]));
     }
 }

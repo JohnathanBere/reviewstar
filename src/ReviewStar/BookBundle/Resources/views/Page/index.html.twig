@@ -1,8 +1,18 @@
 {% extends "ReviewStarBookBundle::layout.html.twig" %}
 {% block body %}
     {% for book in books %}
-        <div>
-            <a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p><a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a></p>
+            </div>
+            <div class="panel-body">
+                <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" style="height:100px!important; width:auto!important;"/>
+                <span>
+                    <span>Lol</span>
+                    <span>Lol</span>
+                    <span>Lol</span>
+                </span>
+            </div>
         </div>
     {% endfor %}
 

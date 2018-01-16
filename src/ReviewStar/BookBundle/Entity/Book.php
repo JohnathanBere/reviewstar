@@ -2,6 +2,7 @@
 
 namespace ReviewStar\BookBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use ReviewStar\BookBundle\Entity\User as OriginalPoster;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Book
 {
+    /**
+     * Book constructor.
+     */
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -28,6 +37,11 @@ class Book
      * @ORM\JoinColumn(name="rs_user_id", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ReviewStar\BookBundle\Entity\Review", mappedBy="book", orphanRemoval=true)
+     */
+    private $reviews;
 
     /**
      * @var string
@@ -310,6 +324,26 @@ class Book
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    public function getAverageRating() {
+        $sum = 0.0;
+
+        foreach($this->getReviews() as $review) {
+            $sum += $review->getReviewRating();
+        }
+
+        $avg = count($this->getReviews()) > 0 ? $sum / count($this->getReviews()) : 0;
+
+        return $avg;
     }
 }
 

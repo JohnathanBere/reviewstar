@@ -2,11 +2,14 @@
 namespace ReviewStar\BookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use ReviewStar\BookBundle\Controller\BookController;
 use ReviewStar\BookBundle\Entity\Book;
 use Symfony\Component\HttpFoundation\Request;
 
 class BookService {
     private $emi;
+    private $bookRepo;
+    //private $bookController;
 
     /**
      * BookService constructor.
@@ -15,6 +18,7 @@ class BookService {
     public function __construct(EntityManagerInterface $emi)
     {
         $this->emi = $emi;
+        $this->bookRepo = $this->emi->getRepository("ReviewStarBookBundle:Book");
     }
 
     public function getBooksForUser($userId) {
@@ -27,12 +31,11 @@ class BookService {
     }
 
     public function getAllBooks() {
-        return $this->emi->getRepository("ReviewStarBookBundle:Book")->findAll();
+        return $this->bookRepo->findAll();
     }
 
-
     public function getBook($id) {
-        $book = $this->emi->getRepository("ReviewStarBookBundle:Book")->find($id);
+        $book = $this->bookRepo->find($id);
 
         return $book;
     }
@@ -55,7 +58,7 @@ class BookService {
 
     public function getPage($booksPerPage, $currentPage = 1) {
         $offSet = ($currentPage - 1) * $booksPerPage;
-        return $this->emi->getRepository("ReviewStarBookBundle:Book")->getLatest($booksPerPage, $offSet);
+        return $this->bookRepo->getLatest($booksPerPage, $offSet);
     }
 
 

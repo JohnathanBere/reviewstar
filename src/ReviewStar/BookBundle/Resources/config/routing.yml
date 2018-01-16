@@ -2,7 +2,6 @@ index:
   path: /{page}
   defaults: { _controller: ReviewStarBookBundle:Page:list, page: 1 }
   requirements:
-    _methods: GET
     page: \d+
 
 rs_book_create:
@@ -26,6 +25,26 @@ rs_book_delete:
   defaults: { _controller: ReviewStarBookBundle:Book:delete }
   requirements:
     id: \d+
+
+rs_review_create:
+  path: /book/{bookId}/review/create
+  defaults: { _controller: ReviewStarBookBundle:Review:create }
+  requirements:
+    bookId: \d+
+
+rs_review_edit:
+  path: /book/{bookId}/review/{id}
+  defaults: { _controller: ReviewStarBookBundle:Review:edit }
+  requirements:
+    id: \d+
+    bookId: \d+
+
+rs_review_delete:
+  path: delete/review/{id}
+  defaults: { _controller: ReviewStarBookBundle:Review:delete }
+  requirements:
+    id: \d+
+    bookId: \d+
 
 rs_user_login:
   path:     /login

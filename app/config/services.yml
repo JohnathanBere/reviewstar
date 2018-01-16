@@ -50,7 +50,14 @@ services:
       class: ReviewStar\BookBundle\Controller\BookController
       arguments: ['@doctrine.orm.entity_manager','@reviewstar.book_service']
 
-
     reviewstar.book_service:
       class: ReviewStar\BookBundle\Service\BookService
+      arguments: ['@doctrine.orm.entity_manager']
+
+    reviewstar.review_controller:
+      class: ReviewStar\BookBundle\Controller\ReviewController
+      arguments: ['@doctrine.orm.entity_manager','@reviewstar.review_service','@reviewstar.book_service']
+
+    reviewstar.review_service:
+      class: ReviewStar\BookBundle\Service\ReviewService
       arguments: ['@doctrine.orm.entity_manager']
