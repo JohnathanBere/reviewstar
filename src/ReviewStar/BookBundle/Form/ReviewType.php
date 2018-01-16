@@ -27,7 +27,9 @@ class ReviewType extends AbstractType
                     '3' => 3.0,
                     '4' => 4.0,
                     '5' => 5.0
-                ]
+                ],
+                'expanded' => true,
+                'multiple' => false
             ])
             ->add('reviewContent', TextareaType::class, [
                 'label' => 'Message',

@@ -25,8 +25,8 @@ class ReviewController extends Controller
 
     public function createAction(Request $request, $bookId) {
         $book = $this->bookService->getBook($bookId);
-        //$reviews = $this->reviewService-
-        if ($this->getUser() && !empty($book)) {
+        $reviews = $this->reviewService->getAllReviewsByUserId($this->getUser()->getId());
+        if ($this->getUser() && !empty($book) && count($reviews) == 0) {
             $review = new Review();
             $form = $this->createForm(ReviewType::class, $review, [
                 'action' => $request->getUri()
@@ -44,7 +44,7 @@ class ReviewController extends Controller
                 'form' => $form->createView()
             ]);
         }
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirect($this->generateUrl('rs_book_view', [ 'id' => $bookId ]));
     }
 
     public function editAction(Request $request, $bookId, $id) {
@@ -79,9 +79,12 @@ class ReviewController extends Controller
 
     public function deleteAction($id) {
         $review = $this->reviewService->getReviewById($id);
+        $book = $this->bookService->getBook($review->getBook()->getId());
         if (!empty($review) && $this->getUser() == $review->getUser()) {
             $this->emi->remove($review);
             $this->emi->flush();
+            return $this->redirect($this->generateUrl('rs_book_view', ['id' => $book->getId()]));
         }
+        return $this->redirect($this->generateUrl('rs_book_view', ['id' => $book->getId()]));
     }
 }

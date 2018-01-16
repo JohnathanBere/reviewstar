@@ -12,14 +12,14 @@ class ReviewRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getReviewsByUser($userId)
     {
-        $dql = $this->createQueryBuilder("review")->where("review.user_id = " . $userId);
+        $dql = $this->createQueryBuilder("review")->where("review.user = " . $userId);
         $query = $dql->getQuery();
         return $query->getResult();
     }
 
     public function getReviewsByBook($bookId)
     {
-        $dql = $this->createQueryBuilder("review")->where("review.book_id = " . $bookId);
+        $dql = $this->createQueryBuilder("review")->where("review.book = " . $bookId);
         $query = $dql->getQuery();
         return $query->getResult();
     }

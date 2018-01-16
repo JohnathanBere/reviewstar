@@ -34,7 +34,7 @@ class BookType extends AbstractType
             ->add('bookCover', FileType::class, [
                 'label' => 'Book Cover',
                 'data_class' => null,
-                'required' => false
+                'required' => false,
             ])
             ->add('submit', SubmitType::class);
     }

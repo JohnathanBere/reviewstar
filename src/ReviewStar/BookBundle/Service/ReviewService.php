@@ -42,4 +42,8 @@ class ReviewService
     public function getAllReviewsByBookId($bookId) {
         return $this->reviewRepo->getReviewsByBook($bookId);
     }
+
+    public function getAllReviewsByUserId($userId) {
+        return $this->reviewRepo->getReviewsByUser($userId);
+    }
 }
