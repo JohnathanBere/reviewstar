@@ -15,12 +15,16 @@ class ReviewController extends Controller
     private $reviewService;
     private $bookService;
     private $emi;
+    private $bookAccessPriv;
+    private $reviewAccessPriv;
 
     public function __construct(ReviewService $reviewService, BookService $bookService, EntityManagerInterface $emi)
     {
         $this->reviewService = $reviewService;
         $this->bookService = $bookService;
         $this->emi = $emi;
+        $this->bookAccessPriv = ['ROLE_ADMIN', 'ROLE_SITE_ADMIN', 'ROLE_BOOK_ADMIN'];
+        $this->reviewAccessPriv = ['ROLE_ADMIN', 'ROLE_SITE_ADMIN', 'ROLE_BOOK_ADMIN', 'ROLE_MOD'];
     }
 
     public function createAction(Request $request, $bookId) {
@@ -36,7 +40,9 @@ class ReviewController extends Controller
             if ($form->isValid()) {
                 $this->reviewService->insertReview($review, $book, $this->getUser());
                 return $this->redirect($this->generateUrl('rs_book_view', [
-                    'id' => $book->getId()
+                    'id' => $book->getId(),
+                    'privileges_book' => $this->bookAccessPriv,
+                    'privileges_review' => $this->reviewAccessPriv,
                 ]));
             }
 
@@ -70,7 +76,9 @@ class ReviewController extends Controller
                     ]);
                 }
                 return $this->redirect($this->generateUrl('rs_book_view', [
-                    'id' => $book->getId()
+                    'id' => $book->getId(),
+                    'privileges_book' => $this->bookAccessPriv,
+                    'privileges_review' => $this->reviewAccessPriv,
                 ]));
             }
         }
@@ -80,11 +88,23 @@ class ReviewController extends Controller
     public function deleteAction($id) {
         $review = $this->reviewService->getReviewById($id);
         $book = $this->bookService->getBook($review->getBook()->getId());
-        if (!empty($review) && $this->getUser() == $review->getUser()) {
-            $this->emi->remove($review);
-            $this->emi->flush();
-            return $this->redirect($this->generateUrl('rs_book_view', ['id' => $book->getId()]));
+        if (!empty($review)) {
+            foreach ($this->reviewAccessPriv as $privilege) {
+                if ($this->getUser()->hasRole($privilege) || $this->getUser()->getId() == $review->getUser()->getId()) {
+                    $this->emi->remove($review);
+                    $this->emi->flush();
+                    return $this->redirect($this->generateUrl('rs_book_view', [
+                        'id' => $book->getId(),
+                        'privileges_book' => $this->bookAccessPriv,
+                        'privileges_review' => $this->reviewAccessPriv,
+                    ]));
+                }
+            }
         }
-        return $this->redirect($this->generateUrl('rs_book_view', ['id' => $book->getId()]));
+        return $this->redirect($this->generateUrl('rs_book_view', [
+            'id' => $book->getId(),
+            'privileges_book' => $this->bookAccessPriv,
+            'privileges_review' => $this->reviewAccessPriv,
+            ]));
     }
 }

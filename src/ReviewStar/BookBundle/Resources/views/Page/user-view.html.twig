@@ -41,6 +41,7 @@
                         </div>
                         <div class="panel-body">
                             <h4>Rating: <strong>{{ review.reviewRating|number_format(1, '.', ',') }} / 5.0</strong></h4>
+                            <h4>Book Reviewed: <strong>{{ review.book.getBookTitle() }}</strong></h4>
                         </div>
                     </div>
                 {% endfor %}

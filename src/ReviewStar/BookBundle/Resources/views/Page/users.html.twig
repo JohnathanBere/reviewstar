@@ -26,7 +26,7 @@
                             <span class="label label-default">Book admin</span>
                         {% endif %}
                     </td>
-                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_SITE_ADMIN") %}
+                    {% if is_granted(privileges_user) %}
                         <td>
                             <ul>
                                 {% for role in user.roles %}

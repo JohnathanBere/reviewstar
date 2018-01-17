@@ -20,7 +20,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 
     public function getBooksByUser($userId)
     {
-        $dql = $this->createQueryBuilder("book")->where("book.user = " . $userId);
+        $dql = $this->createQueryBuilder("book")->orderBy('book.created', 'DESC')->where("book.user = " . $userId);
         $query = $dql->getQuery();
         return $query->getResult();
     }

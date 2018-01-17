@@ -18,6 +18,7 @@ class PageController extends Controller {
     private $bookRepo;
     private $userRepo;
     private $reviewRepo;
+    private $userAccessPriv;
 
     public function __construct(BookService $bookService, EntityManagerInterface $emi)
     {
@@ -26,6 +27,7 @@ class PageController extends Controller {
         $this->bookRepo = $this->emi->getRepository("ReviewStarBookBundle:Book");
         $this->userRepo = $this->emi->getRepository("ReviewStarBookBundle:User");
         $this->reviewRepo = $this->emi->getRepository("ReviewStarBookBundle:Review");
+        $this->userAccessPriv = ['ROLE_ADMIN', 'ROLE_SITE_ADMIN', 'ROLE_USER_ADMIN'];
     }
 
     public function indexAction() {
@@ -82,29 +84,38 @@ class PageController extends Controller {
 
     public function userIndexAction() {
         return $this->render("ReviewStarBookBundle:Page:users.html.twig", [
-            'users' => $this->userRepo->findAll()
+            'users' => $this->userRepo->findAll(),
+            'privileges_user' => $this->userAccessPriv
         ]);
     }
 
     public function userEditAction(Request $request, $id) {
         $user = $this->userRepo->find($id);
-        if ($this->getUser()->hasRole('ROLE_ADMIN') && !empty($user)) {
-            $form = $this->createForm(UserFormType::class, $user, [
-                'action' => $request->getUri()
-            ]);
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                if ($this->getUser() == $user && $user->hasRole('ROLE_ADMIN')) {
-                    $user->addRole('ROLE_ADMIN');
-                }
-                $this->emi->flush();
-                return $this->redirectToUsersPage();
-            }
+        // Get the current roles, this is to ensure that the admin role does not get lost
+        $roles = $user->getRoles();
+        foreach($this->userAccessPriv as $privilege) {
+            if ($this->getUser()->hasRole($privilege)) {
+                if ($this->getUser() && !empty($user)) {
+                    $form = $this->createForm(UserFormType::class, $user, [
+                        'action' => $request->getUri()
+                    ]);
+                    $form->handleRequest($request);
+                    if ($form->isValid()) {
+                        foreach($roles as $role) {
+                            if ($role == 'ROLE_ADMIN') {
+                                $user->addRole($role);
+                            }
+                        }
+                        $this->emi->flush();
+                        return $this->redirectToUsersPage();
+                    }
 
-            return $this->render("ReviewStarBookBundle:Page:user-edit.html.twig", [
-                'form' => $form->createView(),
-                'user' => $user
-            ]);
+                    return $this->render("ReviewStarBookBundle:Page:user-edit.html.twig", [
+                        'form' => $form->createView(),
+                        'user' => $user
+                    ]);
+                }
+            }
         }
         return $this->redirectToUsersPage();
     }
@@ -128,7 +139,8 @@ class PageController extends Controller {
 
     public function redirectToUsersPage() {
         return $this->render("ReviewStarBookBundle:Page:users.html.twig", [
-            'users' => $this->userRepo->findAll()
+            'users' => $this->userRepo->findAll(),
+            'privileges_user' => $this->userAccessPriv
         ]);
     }
 }
