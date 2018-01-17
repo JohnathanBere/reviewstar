@@ -15,7 +15,7 @@
     <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" height="500"/>
     <br />
     <br />
-    {% if book.user == app.user %}
+    {% if book.user == app.user or is_granted(privileges_book) %}
         <a href="{{ path('rs_book_edit', { id: book.id }) }}">Edit this book</a>
         <br />
     {% endif  %}
@@ -35,8 +35,14 @@
                 </div>
                 <div class="panel-footer">
                     <p>{{ review.user }} rated this {{ review.reviewRating }} out of 5</p>
-                    {% if review.user == app.user %}
-                        <p><a href="{{ path("rs_review_edit", { 'bookId': book.id, 'id': review.id }) }}">Edit this review</a></p>
+                    {% if review.user == app.user or is_granted(privileges_review) %}
+                        {% set break = false %}
+                        {% for privilege in privileges_review if not break %}
+                            {% if app.user.hasRole(privilege) and privilege != 'ROLE_MOD' or app.user == review.user %}
+                                <p><a href="{{ path("rs_review_edit", { 'bookId': book.id, 'id': review.id }) }}">Edit this review</a></p>
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
                     {% if review.user == app.user or is_granted(privileges_review) %}
                         {% set break = false %}

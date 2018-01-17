@@ -77,26 +77,31 @@ class BookController extends Controller {
         $book = $this->bookService->getBook($id);
 
         if (!empty($book)) {
-            if ($book->getUser() == $this->getUser())
-            {
-                $form = $this->createForm(BookType::class, $book, [
-                    'action' => $request->getUri()
-                ]);
-                $form->handleRequest($request);
+            foreach($this->bookAccessPriv as $privilege) {
+                if ($book->getUser() == $this->getUser() || $this->getUser()->hasRole($privilege))
+                {
+                    $form = $this->createForm(BookType::class, $book, [
+                        'action' => $request->getUri()
+                    ]);
+                    $form->handleRequest($request);
 
-                if ($form->isValid()) {
-                    $this->fileHelper($book);
-                    $this->emi->flush();
-                    return $this->redirect($this->generateUrl('rs_book_view',
-                        ['id' => $book->getId()]));
+                    if ($form->isValid()) {
+                        $this->fileHelper($book);
+                        $this->emi->flush();
+                        return $this->redirect($this->generateUrl('rs_book_view',
+                            ['id' => $book->getId()]));
+                    }
+                    return $this->render('ReviewStarBookBundle:Book:edit.html.twig', [
+                        'form' => $form->createView(),
+                        'book' => $book
+                    ]);
                 }
-                return $this->render('ReviewStarBookBundle:Book:edit.html.twig', [
-                    'form' => $form->createView(),
-                    'book' => $book
-                ]);
+                return $this->redirect($this->generateUrl('rs_book_view', [
+                    'id' => $book->getId(),
+                    'privileges_review' => $this->reviewAccessPriv,
+                    'privileges_book' => $this->bookAccessPriv
+                ]));
             }
-            return $this->redirect($this->generateUrl('rs_book_view',
-                ['id' => $book->getId()]));
         }
     }
 

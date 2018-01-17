@@ -1,10 +1,10 @@
 {% extends "ReviewStarBookBundle::layout.html.twig" %}
 
 {% block title %}
-    Edit
+    {{ review.reviewTitle }}
 {% endblock %}
 
 {% block body %}
-    <h1>Edit</h1>
+    <h1>Editing {{ review.reviewTitle }}</h1>
     {{ form(form) }}
 {% endblock %}

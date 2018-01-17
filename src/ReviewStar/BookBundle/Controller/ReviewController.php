@@ -55,32 +55,37 @@ class ReviewController extends Controller
 
     public function editAction(Request $request, $bookId, $id) {
         $book = $this->bookService->getBook($bookId);
-        if ($this->getUser() && !empty($book)) {
-            if ($book->getUser() == $this->getUser()) {
-                $review = $this->reviewService->getReviewById($id);
-                if (!empty($review) && $review->getUser() == $this->getUser()) {
-                    $form = $this->createForm(ReviewType::class, $review, [
-                        'action' => $request->getUri(),
-                    ]);
-                    $form->handleRequest($request);
+        if (!empty($book)) {
+            $review = $this->reviewService->getReviewById($id);
+            if (!empty($review)) {
+                foreach($this->reviewAccessPriv as $privilege) {
+                    if ($this->getUser() == $review->getUser() || $this->getUser()->hasRole($privilege) && $privilege != "ROLE_MOD") {
+                        $form = $this->createForm(ReviewType::class, $review, [
+                            'action' => $request->getUri(),
+                        ]);
+                        $form->handleRequest($request);
 
-                    if ($form->isValid()) {
-                        $this->emi->flush();
-                        return $this->redirect($this->generateUrl('rs_book_view', [
-                            'id' => $book->getId()
-                        ]));
+                        if ($form->isValid()) {
+                            $this->emi->flush();
+                            return $this->redirect($this->generateUrl('rs_book_view', [
+                                'id' => $book->getId(),
+                                'privileges_book' => $this->bookAccessPriv,
+                                'privileges_review' => $this->reviewAccessPriv,
+                            ]));
+                        }
+
+                        return $this->render("ReviewStarBookBundle:Review:edit.html.twig", [
+                            'form' => $form->createView(),
+                            'review' => $review
+                        ]);
                     }
-
-                    return $this->render("ReviewStarBookBundle:Review:edit.html.twig", [
-                        'form' => $form->createView()
-                    ]);
                 }
-                return $this->redirect($this->generateUrl('rs_book_view', [
-                    'id' => $book->getId(),
-                    'privileges_book' => $this->bookAccessPriv,
-                    'privileges_review' => $this->reviewAccessPriv,
-                ]));
             }
+            return $this->redirect($this->generateUrl('rs_book_view', [
+                'id' => $book->getId(),
+                'privileges_book' => $this->bookAccessPriv,
+                'privileges_review' => $this->reviewAccessPriv,
+            ]));
         }
         return $this->redirect($this->generateUrl('index'));
     }
@@ -105,6 +110,6 @@ class ReviewController extends Controller
             'id' => $book->getId(),
             'privileges_book' => $this->bookAccessPriv,
             'privileges_review' => $this->reviewAccessPriv,
-            ]));
+        ]));
     }
 }

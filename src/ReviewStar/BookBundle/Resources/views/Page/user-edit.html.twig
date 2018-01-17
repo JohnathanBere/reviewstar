@@ -9,7 +9,6 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var adminValue = $('#admin_field').attr('value');
-
             var modSelector = $('input[value="ROLE_MOD"]');
             var bookSelector = $('input[value="ROLE_BOOK_ADMIN"]');
             var userSelector = $('input[value="ROLE_USER_ADMIN"]');
@@ -26,7 +25,6 @@
                 userSelector.attr('checked', false);
                 siteSelector.attr('checked', false);
             }
-
 
             $('input[type="checkbox"]').on('click', function(e) {
                 var currentTarget = $(e.currentTarget);
