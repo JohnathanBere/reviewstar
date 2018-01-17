@@ -40,7 +40,7 @@ class ReviewController extends Controller
                 ]));
             }
 
-            return $this->render("ReviewStarBookBundle:Book:create.html.twig", [
+            return $this->render("ReviewStarBookBundle:Review:create.html.twig", [
                 'form' => $form->createView()
             ]);
         }

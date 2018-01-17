@@ -64,6 +64,12 @@ rs_user_edit:
   requirements:
     id: \d+
 
+rs_user_view:
+  path: /users/view/{id}
+  defaults: { _controller: ReviewStarBookBundle:Page:userView }
+  requirements:
+    id: \d+
+
 rs_user_login:
   path:     /login
   defaults: { _controller: FOSUserBundle:Security:login }

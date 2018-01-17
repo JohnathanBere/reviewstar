@@ -1,26 +1,36 @@
 {% extends "ReviewStarBookBundle::layout.html.twig" %}
 {% block body %}
-    {% for book in books %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <p><a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a></p>
+    {% if books|length > 0 %}
+        {% for book in books %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a></p>
+                </div>
+                <div class="panel-body">
+                    <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" style="height:100px!important; width:auto!important;"/>
+                    <br />
+                    <h4>Book submitted by <strong><a href="{{ path('rs_user_view', {'id': book.user.getId()}) }}">{{ book.user.username }}</a></strong></h4>
+                    <h4>Written by <strong>{{ book.bookAuthor }}</strong></h4>
+                    <h4>Published through <strong>{{ book.bookPublisher }}</strong></h4>
+                    <h4>Average Rating: <strong>{{ book.getAverageRating()|number_format(1, '.', ',') }} / 5.0</strong></h4>
+                </div>
             </div>
-            <div class="panel-body">
-                <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" style="height:100px!important; width:auto!important;"/>
-                <span>
-                    <span>Lol</span>
-                    <span>Lol</span>
-                    <span>Lol</span>
-                </span>
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% else  %}
+        There are no books.
+    {% endif %}
 
     {% if pageCount > 1 %}
-        {% for page in 1..pageCount %}
-            <a href="{{ path('index', { 'page':page}) }}">
-                {{ page }}
-            </a>
-        {% endfor %}
+        <nav>
+            <ul class="pagination">
+                {% for page in 1..pageCount %}
+                    <li class="{{ page == pageIndex ? 'active' : '' }}">
+                        <a href="{{ path('index', { 'page':page}) }}">
+                            {{ page }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
     {% endif %}
 {% endblock %}

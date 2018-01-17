@@ -39,11 +39,12 @@
                 </div>
             </div>
         {%  endfor %}
-        {% if currentUser.getReviews()|length > 0 %}
+
+        {% if currentUser %}
             {% set reviewArray = [] %}
 
             {% for review in currentUser.getReviews() %}
-                {% if review.getBook().getId() == book.id %}
+                {% if review.getBook().getId() == book.id and review.getUser().getId() == currentUser.getId() %}
                     {% set reviewArray = reviewArray|merge([review]) %}
                 {% endif %}
             {% endfor %}

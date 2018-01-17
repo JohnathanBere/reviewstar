@@ -17,6 +17,7 @@ class PageController extends Controller {
     private $emi;
     private $bookRepo;
     private $userRepo;
+    private $reviewRepo;
 
     public function __construct(BookService $bookService, EntityManagerInterface $emi)
     {
@@ -24,6 +25,7 @@ class PageController extends Controller {
         $this->emi = $emi;
         $this->bookRepo = $this->emi->getRepository("ReviewStarBookBundle:Book");
         $this->userRepo = $this->emi->getRepository("ReviewStarBookBundle:User");
+        $this->reviewRepo = $this->emi->getRepository("ReviewStarBookBundle:Review");
     }
 
     public function indexAction() {
@@ -35,7 +37,7 @@ class PageController extends Controller {
     }
 
     public function listAction($page = 1) {
-        $bookPP = 8;
+        $bookPP = 5;
 
         $bookCount = $this->bookRepo->countBooks();
         $pageCount = ceil($bookCount / $bookPP);
@@ -43,7 +45,7 @@ class PageController extends Controller {
         $pagedBooks = $this->bookService->getPage($bookPP, $page);
 
         return $this->render('ReviewStarBookBundle:Page:index.html.twig', [
-            'books' => $pagedBooks, 'pageCount' => $pageCount
+            'books' => $pagedBooks, 'pageCount' => $pageCount, 'pageIndex' => $page
         ]);
     }
 
@@ -104,6 +106,23 @@ class PageController extends Controller {
                 'user' => $user
             ]);
         }
+        return $this->redirectToUsersPage();
+    }
+
+    public function userViewAction($id) {
+        $user = $this->userRepo->find($id);
+
+        if (!empty($user)) {
+            $books = $this->bookRepo->getBooksByUser($id);
+            $reviews = $this->reviewRepo->getReviewsByUser($id);
+
+            return $this->render("ReviewStarBookBundle:Page:user-view.html.twig", [
+                'books' => $books,
+                'reviews' => $reviews,
+                'user' => $user
+            ]);
+        }
+
         return $this->redirectToUsersPage();
     }
 

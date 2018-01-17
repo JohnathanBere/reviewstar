@@ -53,6 +53,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ path('rs_book_create') }}">Create a book</a></li>
+                                        <li><a href="{{ path('rs_user_view', {'id': app.user.getId()}) }}">Profile Page</a></li>
                                         <li><a href="{{ path('rs_user_catalog') }}">Find users</a></li>
                                         <li><a href="{{ path('rs_user_logout') }}">Sign Out</a></li>
                                     </ul>
