@@ -1,0 +1,10 @@
+{% extends "BookBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ review.reviewTitle }}
+{% endblock %}
+
+{% block body %}
+    <h1>Editing {{ review.reviewTitle }}</h1>
+    {{ form(form) }}
+{% endblock %}

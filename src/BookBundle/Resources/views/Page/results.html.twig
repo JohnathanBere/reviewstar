@@ -1,0 +1,32 @@
+{% extends "BookBundle::layout.html.twig" %}
+{% block body %}
+    {% if books|length > 0 %}
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                {#<p><a href="{{ path('rs_book_view', {'id': book.id }) }}">{{ book.bookTitle }}</a></p>#}
+                <tr>
+                    <td>
+                        <a href="{{ path('rs_book_view', { 'id': book.id }) }}">{{ book.bookTitle }}</a>
+                    </td>
+                    <td>
+                        {{ book.bookAuthor }}
+                    </td>
+                    <td>
+                        {{ book.bookPublisher }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No results were yielded, <a href="{{ path('rs_book_search') }}">try again.</a></p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "BookBundle::layout.html.twig" %}
+{% block body %}
+    <h1>Editing {{ user.username }}</h1>
+    {% if user.hasRole('ROLE_ADMIN') %}
+        <input type="hidden" id="admin_field" value="ROLE_ADMIN" />
+    {% endif %}
+    {{ form(form) }}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var adminValue = $('#admin_field').attr('value');
+            var modSelector = $('input[value="ROLE_MOD"]');
+            var bookSelector = $('input[value="ROLE_BOOK_ADMIN"]');
+            var userSelector = $('input[value="ROLE_USER_ADMIN"]');
+            var siteSelector = $('input[value="ROLE_SITE_ADMIN"]');
+
+            if (adminValue != null) {
+                modSelector.attr('disabled', true);
+                bookSelector.attr('disabled', true);
+                userSelector.attr('disabled', true);
+                siteSelector.attr('disabled', true);
+
+                modSelector.attr('checked', false);
+                bookSelector.attr('checked', false);
+                userSelector.attr('checked', false);
+                siteSelector.attr('checked', false);
+            }
+
+            $('input[type="checkbox"]').on('click', function(e) {
+                var currentTarget = $(e.currentTarget);
+                var selectedValue = currentTarget.attr('value');
+
+                IterateOverCheckboxes(selectedValue);
+            });
+
+            $(document).on('ready', function() {
+                $('input[type="checkbox"]').each(function(index, element) {
+                    var target = $('input[value=' + element.value + ']');
+                    if (target.is(':checked')){
+                        IterateOverCheckboxes(element.value);
+                    }
+                });
+            });
+
+            function IterateOverCheckboxes(selectedValue) {
+                $('input[type="checkbox"]').each(function(index, element) {
+                    if (selectedValue == element.value) {
+                        var elementSelector = $('input[value="' + selectedValue + '"]');
+
+                        switch(selectedValue) {
+                            case 'ROLE_BOOK_ADMIN':
+                                ToggleCheckbox(modSelector, elementSelector);
+                                break;
+
+                            case 'ROLE_SITE_ADMIN':
+                                ToggleCheckbox(modSelector, elementSelector);
+                                ToggleCheckbox(bookSelector, elementSelector);
+                                ToggleCheckbox(userSelector, elementSelector);
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                });
+            }
+
+            function ToggleCheckbox(selector, element) {
+                if (!element.is(':checked')) {
+                    selector.attr('disabled', false);
+                } else {
+                    selector.attr('disabled', true);
+                    selector.attr('checked', false);
+                }
+            }
+        });
+    </script>
+{% endblock %}

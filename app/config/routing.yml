@@ -1,5 +1,5 @@
 review_star_book:
-    resource: "@ReviewStarBookBundle/Resources/config/routing.yml"
+    resource: "@BookBundle/Resources/config/routing.yml"
     prefix:   /
 
 app:
@@ -8,3 +8,8 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+review_star_book_api:
+    type: rest
+    resource: "@BookBundle/Resources/config/routing_api.yml"
+    prefix: /api/

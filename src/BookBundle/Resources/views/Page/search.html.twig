@@ -1,0 +1,17 @@
+{% extends "BookBundle::layout.html.twig" %}
+{% block body %}
+    <h1>Search for a book</h1>
+    {{ form_start(form, {
+        'attr': {'class': 'navbar-form navbar-right', 'action': path('rs_handle_search')}
+    }) }}
+
+    {{ form_widget(form.search, {
+        'attr': {'class': 'form-control search-query'}
+    }) }}
+
+    {{ form_widget(form.button, {
+        'attr': {'class': 'btn btn-primary'}
+    }) }}
+
+    {{ form_end(form) }}
+{% endblock %}
