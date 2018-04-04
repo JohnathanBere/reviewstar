@@ -81,3 +81,20 @@ rs_user_logout:
 rs_user_register:
   path: /register
   defaults: { _controller: FOSUserBundle:Registration:register }
+
+
+rs_joindin_events_all:
+  path: /events
+  defaults: { _controller: BookBundle:Joindin:events }
+
+rs_joindin_event:
+  path: /events/{index}
+  defaults: { _controller: BookBundle:Joindin:event }
+  requirements:
+    index: \d+
+
+rs_joindin_event_talks:
+  path: /events/{index}/talks/
+  defaults: { _controller: BookBundle:Joindin:talks }
+  requirements:
+    index: \d+

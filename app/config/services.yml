@@ -69,3 +69,7 @@ services:
     book_api_service:
       class: BookBundle\API\BookAPIController
       arguments: ['@doctrine.orm.entity_manager']
+
+#    joindin_controller:
+#      class: BookBundle\Controller\JoindinController
+#      arguments: ['@guzzle.client']

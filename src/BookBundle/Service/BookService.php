@@ -52,8 +52,10 @@ class BookService {
         }
     }
 
-    public function updateBook($id, Request $request) {
-        $book = $this->getBook($id);
+    public function updateBook(Book $book, $id) {
+        if (!empty($book) && $book->getId() == $id) {
+            $this->emi->flush();
+        }
     }
 
     public function getPage($booksPerPage, $currentPage = 1) {
