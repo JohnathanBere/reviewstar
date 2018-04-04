@@ -86,7 +86,14 @@ fos_user:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
 
-# app/config/config.yml
+jms_serializer:
+  metadata:
+    directories:
+      FOSUB:
+        namespace_prefix: "FOS\\UserBundle"
+        path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
+# app/config/config.ymlc
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/DoctrineMigrations"
     namespace: Application\Migrations

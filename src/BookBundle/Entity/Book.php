@@ -309,7 +309,7 @@ class Book
      *
      * @return OriginalPoster
      */
-    public function setUser(OriginalPoster $user)
+    public function setUser(OriginalPoster $user = null)
     {
         $this->user = $user;
 

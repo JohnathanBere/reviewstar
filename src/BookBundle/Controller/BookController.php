@@ -103,6 +103,7 @@ class BookController extends Controller {
                 ]));
             }
         }
+        return $this->render($this->generateUrl('rs_book_view'));
     }
 
     public function deleteAction($id) {

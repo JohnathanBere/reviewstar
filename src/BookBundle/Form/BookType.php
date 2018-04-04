@@ -44,7 +44,7 @@ class BookType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ReviewStar\BookBundle\Entity\Book',
+            'data_class' => 'BookBundle\Entity\Book',
             'csrf_protection' => false
         ));
     }

@@ -46,6 +46,10 @@ services:
       resource: '../../src/BookBundle/Controller'
       public: true
 
+    BookBundle\API\:
+      resource: '../../src/BookBundle/API'
+      public: true
+
     book_controller:
       class: BookBundle\Controller\BookController
       arguments: ['@doctrine.orm.entity_manager','@book_service']
@@ -60,4 +64,8 @@ services:
 
     review_service:
       class: BookBundle\Service\ReviewService
+      arguments: ['@doctrine.orm.entity_manager']
+
+    book_api_service:
+      class: BookBundle\API\BookAPIController
       arguments: ['@doctrine.orm.entity_manager']
