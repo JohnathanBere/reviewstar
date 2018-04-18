@@ -66,8 +66,12 @@ services:
       class: BookBundle\Service\ReviewService
       arguments: ['@doctrine.orm.entity_manager']
 
-    book_api_service:
+    book_api_controller:
       class: BookBundle\API\BookAPIController
+      arguments: ['@doctrine.orm.entity_manager']
+
+    review_api_controller:
+      class: BookBundle\API\ReviewAPIController
       arguments: ['@doctrine.orm.entity_manager']
 
 #    joindin_controller:

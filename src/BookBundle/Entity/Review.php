@@ -3,12 +3,15 @@
 namespace BookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * Review
  *
  * @ORM\Table(name="rs_reviews")
  * @ORM\Entity(repositoryClass="BookBundle\Repository\ReviewRepository")
+ * @ExclusionPolicy("all")
  */
 class Review
 {
@@ -21,6 +24,7 @@ class Review
     /**
      * @ORM\ManyToOne(targetEntity="BookBundle\Entity\Book", inversedBy="reviews")
      * @ORM\JoinColumn(name="rs_book_id", referencedColumnName="id")
+     *
      */
     private $book;
 
@@ -30,6 +34,7 @@ class Review
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -37,6 +42,7 @@ class Review
      * @var string
      *
      * @ORM\Column(name="review_title", type="string", length=255, nullable=true)
+     * @Expose
      */
     private $reviewTitle;
 
@@ -44,6 +50,7 @@ class Review
      * @var string
      *
      * @ORM\Column(name="review_content", type="string", length=9999, nullable=true)
+     * @Expose
      */
     private $reviewContent;
 
@@ -51,6 +58,7 @@ class Review
      * @var float
      *
      * @ORM\Column(name="review_rating", type="float")
+     * @Expose
      */
     private $reviewRating;
 
@@ -58,6 +66,7 @@ class Review
      * @var \DateTime
      *
      * @ORM\Column(name="date_created", type="datetime")
+     * @Expose
      */
     private $created;
 

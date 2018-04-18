@@ -6,12 +6,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use BookBundle\Entity\User as OriginalPoster;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * Book
  *
  * @ORM\Table(name="rs_books")
  * @ORM\Entity(repositoryClass="BookBundle\Repository\BookRepository")
+ * @ExclusionPolicy("all")
  */
 class Book
 {
@@ -29,6 +32,7 @@ class Book
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -47,6 +51,7 @@ class Book
      * @var string
      *
      * @ORM\Column(name="book_author", type="string", length=255)
+     * @Expose
      */
     private $bookAuthor;
 
@@ -54,6 +59,7 @@ class Book
      * @var string
      *
      * @ORM\Column(name="book_title", type="string", length=255)
+     * @Expose
      */
     private $bookTitle;
 
@@ -61,6 +67,7 @@ class Book
      * @var string
      *
      * @ORM\Column(name="book_publisher", type="string", length=255, nullable=true)
+     * @Expose
      */
     private $bookPublisher;
 
@@ -68,6 +75,7 @@ class Book
      * @var \DateTime
      *
      * @ORM\Column(name="book_publishdate", type="datetime", nullable=true)
+     * @Expose
      */
     private $bookPublishdate;
 
@@ -75,6 +83,7 @@ class Book
      * @var string
      * @Assert\NotBlank(message="Please put an image")
      * @ORM\Column(name="book_cover", type="string", length=255, nullable=true)
+     * @Expose
      */
     private $bookCover;
 
@@ -89,6 +98,7 @@ class Book
      * @var string
      *
      * @ORM\Column(name="book_synopsis", type="string", length=255, nullable=true)
+     * @Expose
      */
     private $bookSynopsis;
 
@@ -96,6 +106,7 @@ class Book
      * @var \DateTime
      *
      * @ORM\Column(name="date_created", type="datetime")
+     * @Expose
      */
     private $created;
 

@@ -2,4 +2,8 @@ api_book:
     type: rest
     resource: BookBundle\API\BookAPIController
     name_prefix: api_book_
+    prefix: /api_review:
+    type: rest
+    resource: BookBundle\API\ReviewAPIController
+    name_prefix: api_review_
     prefix: /
