@@ -93,7 +93,7 @@ jms_serializer:
         namespace_prefix: "FOS\\UserBundle"
         path: "%kernel.root_dir%/serializer/FOSUserBundle"
 
-# app/config/config.ymlc
+# app/config/config.yml
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/DoctrineMigrations"
     namespace: Application\Migrations
@@ -104,3 +104,12 @@ doctrine_migrations:
 fos_rest:
     routing_loader:
         default_format: json
+
+fos_oauth_server:
+    db_driver: orm       # Drivers available: orm, mongodb, or propel
+    client_class:        BookBundle\Entity\Client
+    access_token_class:  BookBundle\Entity\AccessToken
+    refresh_token_class: BookBundle\Entity\RefreshToken
+    auth_code_class:     BookBundle\Entity\AuthCode
+    service:
+          user_provider: fos_user.user_provider.username

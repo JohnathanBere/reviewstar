@@ -29,10 +29,20 @@ class ReviewAPIController extends FOSRestController
      */
     public function getReviewsAction($bookId)
     {
+        $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
+        $client = $clientManager->createClient();
+        $client->setRedirectUris(array('http://www.example.com'));
+        $client->setAllowedGrantTypes(array('token', 'authorization_code'));
+        $clientManager->updateClient($client);
+
         $reviews = $this->reviewRepo->getReviewsByBook($bookId);
 
         if (empty($reviews)) {
             return $this->handleView($this->view("There are no reviews for this book", 204));
+        }
+
+        if ($this->get("security.context")->isGranted("IS_AUTHENTICATED_FULLY")) {
+            return $this->handleView($this->view("NOT LOGGED IN FUCK OFF", 200));
         }
 
         return $this->handleView($this->view($reviews, 200));
