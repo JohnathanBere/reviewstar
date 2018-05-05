@@ -23,4 +23,17 @@ class ReviewRepository extends \Doctrine\ORM\EntityRepository
         $query = $dql->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * @param $bookId
+     * @param $reviewId
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getSingleReviewByBook($bookId, $reviewId) {
+        $dql = $this->createQueryBuilder("review")->where("review.book = " . $bookId)->andWhere("review.id = " . $reviewId);
+        $query = $dql->getQuery();
+        return $query->getSingleResult();
+    }
 }

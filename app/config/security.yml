@@ -29,7 +29,7 @@ security:
             pattern:    ^/api
             fos_oauth:  true
             stateless:  true
-            anonymous:  true # can be omitted as its default value
+            anonymous:  false # can be omitted as its default value
 
         main:
             pattern: ^/
@@ -52,4 +52,4 @@ security:
         - { path: ^/delete/, role: ROLE_USER }
         - { path: ^/create/, role: ROLE_USER }
         - { path: ^/edit/, role: ROLE_USER }
-        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_ANONYMOUSLY ] }

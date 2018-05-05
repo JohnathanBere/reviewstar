@@ -4,8 +4,7 @@ api_book:
     name_prefix: api_book_
 
 api_review:
-    prefix: /api_review:
+    parent: api_book
     type: rest
     resource: BookBundle\API\ReviewAPIController
     name_prefix: api_review_
-    prefix: /

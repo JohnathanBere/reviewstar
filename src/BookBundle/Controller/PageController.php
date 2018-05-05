@@ -33,13 +33,13 @@ class PageController extends Controller {
     public function indexAction() {
         $books = $this->bookService->getAllBooks();
 
-        return $this->render('ReviewStarBookBundle:Page:index.html.twig', [
+        return $this->render('BookBundle:Page:index.html.twig', [
             'books' => $books
         ]);
     }
 
     public function listAction($page = 1) {
-        $bookPP = 1;
+        $bookPP = 8;
 
         $bookCount = $this->bookRepo->countBooks();
         $pageCount = ceil($bookCount / $bookPP);
@@ -83,7 +83,7 @@ class PageController extends Controller {
     }
 
     public function userIndexAction() {
-        return $this->render("ReviewStarBookBundle:Page:users.html.twig", [
+        return $this->render("BookBundle:Page:users.html.twig", [
             'users' => $this->userRepo->findAll(),
             'privileges_user' => $this->userAccessPriv
         ]);
@@ -93,7 +93,8 @@ class PageController extends Controller {
         $user = $this->userRepo->find($id);
         // Get the current roles, this is to ensure that the admin role does not get lost
         $roles = $user->getRoles();
-        foreach($this->userAccessPriv as $privilege) {
+        foreach($this->
+        userAccessPriv as $privilege) {
             if ($this->getUser()->hasRole($privilege)) {
                 if ($this->getUser() && !empty($user)) {
                     $form = $this->createForm(UserFormType::class, $user, [
@@ -127,7 +128,7 @@ class PageController extends Controller {
             $books = $this->bookRepo->getBooksByUser($id);
             $reviews = $this->reviewRepo->getReviewsByUser($id);
 
-            return $this->render("ReviewStarBookBundle:Page:user-view.html.twig", [
+            return $this->render("BookBundle:Page:user-view.html.twig", [
                 'books' => $books,
                 'reviews' => $reviews,
                 'user' => $user

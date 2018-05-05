@@ -81,7 +81,6 @@ class Book
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Please put an image")
      * @ORM\Column(name="book_cover", type="string", length=255, nullable=true)
      * @Expose
      */
@@ -89,7 +88,6 @@ class Book
 
     /**
      * @var string
-     *
      * @ORM\Column(name="book_thumbnail", type="string", length=255, nullable=true)
      */
     private $bookThumbnail;
