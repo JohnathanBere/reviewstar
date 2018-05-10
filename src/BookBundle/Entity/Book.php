@@ -58,7 +58,7 @@ class Book
     /**
      * @var string
      *
-     * @ORM\Column(name="book_title", type="string", length=255)
+     * @ORM\Column(name="book_title", type="string", length=255, nullable=false)
      * @Expose
      */
     private $bookTitle;
@@ -95,7 +95,7 @@ class Book
     /**
      * @var string
      *
-     * @ORM\Column(name="book_synopsis", type="string", length=255, nullable=true)
+     * @ORM\Column(name="book_synopsis", type="text", nullable=true)
      * @Expose
      */
     private $bookSynopsis;

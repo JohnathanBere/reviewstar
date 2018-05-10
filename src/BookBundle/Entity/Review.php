@@ -49,7 +49,7 @@ class Review
     /**
      * @var string
      *
-     * @ORM\Column(name="review_content", type="string", length=9999, nullable=true)
+     * @ORM\Column(name="review_content", type="text", nullable=true)
      * @Expose
      */
     private $reviewContent;
@@ -186,6 +186,7 @@ class Review
 
     /**
      * @return mixed
+     *
      */
     public function getBook()
     {

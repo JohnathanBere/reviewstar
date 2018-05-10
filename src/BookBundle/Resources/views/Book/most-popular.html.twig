@@ -2,7 +2,12 @@
 
 {% block body %}
     {% for seller in bestSellers %}
-        <h3><a href="{{ (path("rs_bookapi_retrieveItem", {id: api_service.getSingleBookByNameAndAuthor(seller.title, seller.author).id})) }}">{{ seller.title }}</a> by {{ seller.author }}</h3>
+        <h3>
+            <a href="{{ (path("rs_bookapi_retrieveItem",
+                {id: api_service.getSingleBookByNameAndAuthor(seller.title, seller.author).id}))
+            }}">{{ seller.title }}</a>
+            by {{ seller.author }}
+        </h3>
         <h4>{{ seller.description }}</h4>
     {% endfor %}
 {% endblock %}

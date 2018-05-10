@@ -44,11 +44,11 @@ class APIService
     }
 
     public function getSingleBookByNameAndAuthor($bookName, $bookAuthor) {
-        $parsedBookName = str_replace("%20" || " ", "+", $bookName);
-        $bookNameWOutChar = preg_replace('/[^A-Za-z0-9 \-]/', '', $parsedBookName);
-        $parsedBookAuthor = str_replace("%20" || " ", "+", $bookName);
-        $authorWOutChar = preg_replace('/[^A-Za-z0-9 \-]/', '', $parsedBookAuthor);
-        $responseBody = $this->getGoogleBookClient()->get("volumes?q=title=".$bookNameWOutChar."+author=".$authorWOutChar)->getBody();
+        $bookNameWOutChar = preg_replace('/[^A-Za-z0-9 \-]/', '', $bookName);
+        $authorWOutChar = preg_replace('/[^A-Za-z0-9 \-]/', '', $bookAuthor);
+        $responseBody = $this->getGoogleBookClient()->get("volumes?q=title=".$bookNameWOutChar.
+            "+author=".$authorWOutChar)
+            ->getBody();
         $responseData = \GuzzleHttp\json_decode($responseBody);
 
         return $responseData->items[0];

@@ -65,8 +65,8 @@ class PageController extends Controller {
         $parsedBooks =[];
 
         foreach ($pagedBooks as $book) {
-            $volumeInfo = $this->apiService->getVolumeInfoFromFirstItemFromGoogleApi($book->getBookTitle());
-            $thumbnail = $volumeInfo->imageLinks->thumbnail;
+            $item = $this->apiService->getSingleBookByNameAndAuthor($book->getBookTitle(), $book->getBookAuthor());
+            $thumbnail = $item->volumeInfo->imageLinks->thumbnail;
             $book->setBookCover($thumbnail);
             array_push($parsedBooks, $book);
         }

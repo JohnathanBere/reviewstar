@@ -5,4 +5,6 @@
     <h5>Remember, you need to be registered to gain access to the external API with your credentials</h5>
     <p><b>With secret key:</b> {{ client.getSecret() }}</p>
     <p><b>With id:</b> 1_{{ client.randomId() }}</p>
+    <p>For your body, enter the above details as client_secret and client_id respectively. With a grant_type of password, and username and password representing your username and password on this site.
+    Put these details in your request body, making a POST to /oauth/v2/token.</p>
 {% endblock %}

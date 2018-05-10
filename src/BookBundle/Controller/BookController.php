@@ -66,6 +66,7 @@ class BookController extends Controller {
             $form = $this->createForm(BookType::class, $book, [
                 'action' => $request->getUri()
             ]);
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -110,12 +111,14 @@ class BookController extends Controller {
 
         $this->get("session")->clear();
 
+        $pubDate = strtotime(empty($item->volumeInfo->publishedDate) ? null : $item->volumeInfo->publishedDate);
+        $formattedPubDate = $pubDate != null ? date("Y-m-d", $pubDate) : new \DateTime();
         $book = new Book();
         $book->setBookTitle($item->volumeInfo->title);
         $book->setBookAuthor(empty($item->volumeInfo->authors[0]) ? null : $item->volumeInfo->authors[0]);
         $book->setBookSynopsis($item->volumeInfo->description);
         $book->setBookPublisher(empty($item->volumeInfo->publisher) ? null : $item->volumeInfo->publisher);
-        $book->setBookPublishdate()
+        $book->setBookPublishdate(new \DateTime($formattedPubDate));
         $this->get("session")->set("prepopBook", $book);
 
         if (!empty($item)) {

@@ -75,6 +75,10 @@ class BookAPIController extends FOSRestController
             return $this->handleView($this->view("Requested content is not valid JSON", 400));
         }
 
+        if (empty($book->getBookTitle())) {
+            return $this->handleView($this->view("There must be a book title", 400));
+        }
+
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
@@ -105,16 +109,17 @@ class BookAPIController extends FOSRestController
         $book = $this->bookRepo->find($id);
 
         if (!$this->getUser()) {
-            return $this->handleView($this->view("Must be logged in to create a book", 401));
+            return $this->handleView($this->view("Must be logged in to update a book", 401));
         }
 
         if (empty($book)) {
-            return $this->handleView($this->view("The book cannot be found", 400));
+            return $this->handleView($this->view("The book cannot be found", 404));
         }
 
         if ($book->getUser() != $this->getUser()) {
             return $this->handleView($this->view("You cannot update someone else's book", 403));
         }
+
         $form = $this->createForm(BookType::class, $book, ["action" => $request->getUri()]);
 
         $form->handleRequest($request);
@@ -162,6 +167,6 @@ class BookAPIController extends FOSRestController
             return $this->handleView($this->view("Book deleted", 200));
         }
 
-        return $this->handleView($this->view("The book does not exist", 400));
+        return $this->handleView($this->view("The book does not exist", 404));
     }
 }

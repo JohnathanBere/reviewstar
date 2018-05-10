@@ -40,6 +40,12 @@ class ReviewAPIController extends FOSRestController
     {
         $reviews = $this->reviewRepo->getReviewsByBook($bookId);
 
+        $book = $this->bookRepo->find($bookId);
+
+        if (empty($book)) {
+            return $this->handleView($this->view("The requested book does not exist.", 404));
+        }
+
         if (empty($reviews)) {
             return $this->handleView($this->view("There are no reviews for this book", 204));
         }
@@ -56,8 +62,14 @@ class ReviewAPIController extends FOSRestController
     public function getReviewAction($bookId, $reviewId) {
         $review = $this->reviewRepo->getSingleReviewByBook($bookId, $reviewId);
 
+        $book = $this->bookRepo->find($bookId);
+
+        if (empty($book)) {
+            return $this->handleView($this->view("Book not found", 404));
+        }
+
         if (empty($review)) {
-            return $this->handleView($this->view("Review not found", 204));
+            return $this->handleView($this->view("Review not found", 404));
         }
 
         return $this->handleView($this->view($review, 200));
