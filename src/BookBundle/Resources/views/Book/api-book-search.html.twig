@@ -1,0 +1,17 @@
+{% extends "BookBundle::layout.html.twig" %}
+
+{% block body %}
+    <input type="hidden" class="googlePathUrl" value="{{ (path("rs_bookapi_retrieveItems")) }}" />
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <label for="search">
+                Search for books
+            </label>
+            <input type="text" id="search" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div id="results-container" class="col-md-10 col-md-offset-1">
+        </div>
+    </div>
+{% endblock %}

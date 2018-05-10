@@ -45,7 +45,9 @@
                     <div id="navbar-main" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{{ path('index', {'page':1}) }}">Home</a></li>
-                            <li><a href="{{ path('rs_book_search') }}">Search</a></li>
+                            <li><a href="{{ path('rs_book_search') }}">Search Books</a></li>
+                            <li><a href="{{ path('rs_bookapi_search') }}">Google Book Search</a></li>
+                            <li><a href="{{ path('rs_nyt_link') }}">NYT's Best Sellers</a></li>
                             {% if is_granted("ROLE_USER") %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -55,6 +57,7 @@
                                         <li><a href="{{ path('rs_book_create') }}">Create a book</a></li>
                                         <li><a href="{{ path('rs_user_view', {'id': app.user.getId()}) }}">Profile Page</a></li>
                                         <li><a href="{{ path('rs_user_catalog') }}">Find users</a></li>
+                                        <li><a href="{{ path('rs_api_info') }}">Get API info</a></li>
                                         <li><a href="{{ path('rs_user_logout') }}">Sign Out</a></li>
                                     </ul>
                                 </li>

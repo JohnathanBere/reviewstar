@@ -12,7 +12,21 @@
     <h4><strong>Publisher:</strong> {{ book.bookPublisher }}</h4>
     <h4><strong>Year Published:</strong> {{ book.bookPublishDate|date("Y") }}</h4>
     <h4><strong>Synopsis:</strong> {{ book.bookSynopsis }}</h4>
-    <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" height="500"/>
+    <h4>
+        <strong>Price: </strong>
+        {% if item.saleInfo.retailPrice is defined %}
+            {{ item.saleInfo.retailPrice.amount }}{{ item.saleInfo.retailPrice.currencyCode }}
+        {% else %}
+            No prices available
+        {% endif  %}
+    </h4>
+    <br />
+    {% if item.saleInfo.buyLink is defined %}
+        <a class="btn btn-sm btn-primary" href="{{ item.saleInfo.buyLink }}">Buy {{ item.volumeInfo.title }}</a>
+        <br />
+    {% endif %}
+    {#<img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" height="500"/>#}
+    <img src="{{ item.volumeInfo.imageLinks.thumbnail }}" height="500" />
     <br />
     <br />
     {% if book.user == app.user or is_granted(privileges_book) %}

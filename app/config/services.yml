@@ -52,11 +52,18 @@ services:
 
     book_controller:
       class: BookBundle\Controller\BookController
-      arguments: ['@doctrine.orm.entity_manager','@book_service']
+      arguments: ['@doctrine.orm.entity_manager','@book_service', '@api_service']
+
+    page_controller:
+      class: BookBundle\Controller\PageController
+      arguments: ['@api_service']
 
     book_service:
       class: BookBundle\Service\BookService
       arguments: ['@doctrine.orm.entity_manager']
+
+    api_service:
+      class: BookBundle\Service\APIService
 
     review_controller:
       class: BookBundle\Controller\ReviewController

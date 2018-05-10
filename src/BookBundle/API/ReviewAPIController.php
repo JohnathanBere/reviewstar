@@ -128,11 +128,11 @@ class ReviewAPIController extends FOSRestController
         $review = $this->reviewRepo->find($reviewId);
 
         if (empty($review)) {
-            return $this->handleView($this->view("The requested review could not be retrieved", 400));
+            return $this->handleView($this->view("The requested review could not be retrieved", 204));
         }
 
         if ($this->getUser() != $review->getUser()) {
-            return $this->handleView($this->view("Unable to update a review, are you the one who made the review?", 401));
+            return $this->handleView($this->view("Unable to update a review, are you the one who made the review?", 403));
         }
 
         $form = $this->createForm(ReviewType::class, $review, ["action" => $request->getUri()]);
@@ -159,16 +159,23 @@ class ReviewAPIController extends FOSRestController
 
     /**
      * Deletes a book
-     * @param $id
+     * @param $reviewId
+     * @param $bookId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteReviewAction($id)
+    public function deleteReviewAction($bookId, $reviewId)
     {
-        $review = $this->reviewRepo->find($id);
+        $book = $this->bookRepo->find($bookId);
+
+        if (empty($book)) {
+            return $this->handleView($this->view("The book cannot be found", 404));
+        }
+
+        $review = $this->reviewRepo->find($reviewId);
 
         if (!$review->getUser() != $this->getUser()) {
-            return $this->handleView($this->view("You cannot delete someone else's review", 401));
+            return $this->handleView($this->view("You cannot delete someone else's review", 403));
         }
 
         if (!empty($review)) {
@@ -177,6 +184,6 @@ class ReviewAPIController extends FOSRestController
             return $this->handleView($this->view("Review deleted", 202));
         }
 
-        return $this->handleView($this->view("The requested review cannot exist", 404));
+        return $this->handleView($this->view("The review cannot be found", 404));
     }
 }

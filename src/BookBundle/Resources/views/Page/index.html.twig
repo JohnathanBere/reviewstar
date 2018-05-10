@@ -7,7 +7,7 @@
                     <p><a href="{{ path("rs_book_view", {id: book.id}) }}">{{ book.bookTitle }}</a></p>
                 </div>
                 <div class="panel-body">
-                    <img src="{{ asset('uploads/images/') ~ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" style="height:100px!important; width:auto!important;"/>
+                    <img src="{{ book.bookCover }}" alt="{{ book.bookTitle }}" class="img-thumbnail" style="height:100px!important; width:auto!important;"/>
                     <br />
                     <h4>Book submitted by <strong><a href="{{ path('rs_user_view', {'id': book.user.getId()}) }}">{{ book.user.username }}</a></strong></h4>
                     <h4>Written by <strong>{{ book.bookAuthor }}</strong></h4>

@@ -1,0 +1,8 @@
+{% extends "BookBundle::layout.html.twig" %}
+{% block body %}
+    <h1>Want to use the ReviewStar's external API?</h1>
+    <h2>Use the required OAuth2 request headers in your client side app</h2>
+    <h5>Remember, you need to be registered to gain access to the external API with your credentials</h5>
+    <p><b>With secret key:</b> {{ client.getSecret() }}</p>
+    <p><b>With id:</b> 1_{{ client.randomId() }}</p>
+{% endblock %}

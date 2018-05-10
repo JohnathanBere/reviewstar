@@ -2,5 +2,10 @@
 
 {% block body %}
     <h1>Update {{ book.bookTitle }}</h1>
+    <input type="hidden" class="googlePathUrl" value="{{ (path("rs_googleapi_get")) }}" />
+    <label>
+        Pre-populate from title of your book?
+        <input type="checkbox" class="apiCheck" />
+    </label>
     {{ form(form) }}
 {% endblock %}

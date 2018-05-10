@@ -1,0 +1,48 @@
+{% extends "BookBundle::layout.html.twig" %}
+
+{% block body %}
+    {% if item.volumeInfo.title %}
+        <h1>Viewing {{ item.volumeInfo.title }}</h1>
+    {% endif %}
+    {% if item.volumeInfo.ratingsCount is defined %}
+        <h4><strong>Number of Ratings: </strong>{{ item.volumeInfo.ratingsCount }}</h4>
+    {% endif %}
+    {% if item.volumeInfo.averageRating is defined %}
+        <h4><strong>Average Rating: </strong>{{ item.volumeInfo.averageRating|number_format(1, '.', ',') }}/5.0</h4>
+    {% endif %}
+    {% if item.volumeInfo.authors is defined %}
+        <h4><strong>Authors:</strong></h4>
+        {% for author in item.volumeInfo.authors %}
+            <p>{{ author }}</p>
+        {% endfor %}
+    {% endif %}
+    {% if item.volumeInfo.publisher is defined %}
+        <h4><strong>Publisher:</strong> {{ item.volumeInfo.publisher }}</h4>
+    {% endif %}
+    {% if item.volumeInfo.publishedDate is defined %}
+        <h4><strong>Year Published:</strong> {{ item.volumeInfo.publishedDate|date("Y") }}</h4>
+    {% endif %}
+    {% if item.volumeInfo.description is defined %}
+        <h4><strong>Synopsis:</strong> {{ item.volumeInfo.description }}</h4>
+    {% endif %}
+    {% if item.saleInfo %}
+        <h4>
+            <strong>Price: </strong>
+            {% if item.saleInfo.retailPrice is defined %}
+                {{ item.saleInfo.retailPrice.amount }}{{ item.saleInfo.retailPrice.currencyCode }}
+            {% else %}
+                No prices available
+            {% endif  %}
+        </h4>
+    {% endif %}
+    <br />
+    {% if item.saleInfo.buyLink is defined %}
+        <a class="btn btn-sm btn-primary" href="{{ item.saleInfo.buyLink }}">Buy {{ item.volumeInfo.title }}</a>
+    {% endif %}
+    {% if app.user and is_granted("ROLE_USER") %}
+        <p>Want to review {{ item.volumeInfo.title }} on ReviewStar? <a href="{{ path("rs_book_create") }}">Click here!</a></p>
+    {% endif %}
+    {% if item.volumeInfo.imageLinks is defined %}
+        <img src="{{ item.volumeInfo.imageLinks.thumbnail }}" height="500" />
+    {% endif %}
+{% endblock %}

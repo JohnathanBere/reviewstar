@@ -2,6 +2,7 @@
 
 namespace BookBundle\Controller;
 
+use BookBundle\Service\APIService;
 use Doctrine\ORM\EntityManagerInterface;
 use BookBundle\Entity\Book;
 use BookBundle\Form\UserFormType;
@@ -19,8 +20,9 @@ class PageController extends Controller {
     private $userRepo;
     private $reviewRepo;
     private $userAccessPriv;
+    private $apiService;
 
-    public function __construct(BookService $bookService, EntityManagerInterface $emi)
+    public function __construct(BookService $bookService, EntityManagerInterface $emi, APIService $apiService)
     {
         $this->bookService = $bookService;
         $this->emi = $emi;
@@ -28,6 +30,17 @@ class PageController extends Controller {
         $this->userRepo = $this->emi->getRepository("BookBundle:User");
         $this->reviewRepo = $this->emi->getRepository("BookBundle:Review");
         $this->userAccessPriv = ['ROLE_ADMIN', 'ROLE_SITE_ADMIN', 'ROLE_USER_ADMIN'];
+        $this->apiService = $apiService;
+    }
+
+    public function apiInfoAction() {
+        if ($this->getUser()) {
+            $client = $this->emi->getRepository("BookBundle:Client")->find(1);
+            return $this->render("BookBundle:Page:api-info.html.twig", [
+                "client" => $client
+            ]);
+        }
+        return $this->redirect($this->generateUrl("index"));
     }
 
     public function indexAction() {
@@ -38,6 +51,10 @@ class PageController extends Controller {
         ]);
     }
 
+    /**
+     * @param int $page
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function listAction($page = 1) {
         $bookPP = 8;
 
@@ -45,9 +62,17 @@ class PageController extends Controller {
         $pageCount = ceil($bookCount / $bookPP);
 
         $pagedBooks = $this->bookService->getPage($bookPP, $page);
+        $parsedBooks =[];
+
+        foreach ($pagedBooks as $book) {
+            $volumeInfo = $this->apiService->getVolumeInfoFromFirstItemFromGoogleApi($book->getBookTitle());
+            $thumbnail = $volumeInfo->imageLinks->thumbnail;
+            $book->setBookCover($thumbnail);
+            array_push($parsedBooks, $book);
+        }
 
         return $this->render('BookBundle:Page:index.html.twig', [
-            'books' => $pagedBooks, 'pageCount' => $pageCount, 'pageIndex' => $page
+            'books' => $parsedBooks, 'pageCount' => $pageCount, 'pageIndex' => $page
         ]);
     }
 

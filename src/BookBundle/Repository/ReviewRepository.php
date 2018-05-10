@@ -24,6 +24,15 @@ class ReviewRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
+    public function getReviewsByBookAndUser($bookId, $userId) {
+        $dql = $this
+            ->createQueryBuilder("review")
+            ->where("review.book = " . $bookId)
+            ->andWhere("review.user = " . $userId);
+        $query = $dql->getQuery();
+        return $query->getResult();
+    }
+
     /**
      * @param $bookId
      * @param $reviewId

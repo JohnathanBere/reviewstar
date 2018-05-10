@@ -82,6 +82,29 @@ rs_user_register:
   path: /register
   defaults: { _controller: FOSUserBundle:Registration:register }
 
+rs_api_info:
+  path: /info
+  defaults: { _controller: BookBundle:Page:apiInfo }
+
+rs_googleapi_get:
+  path: /googleapi
+  defaults: { _controller: BookBundle:Book:retrieveVolumeInfo }
+
+rs_bookapi_search:
+  path: /search/api
+  defaults: { _controller: BookBundle:Book:apiSearch }
+
+rs_bookapi_retrieveItems:
+  path: /googleapi/items
+  defaults: { _controller: BookBundle:Book:retrieveItems }
+
+rs_bookapi_retrieveItem:
+  path: /book/api/{id}
+  defaults: { _controller: BookBundle:Book:viewApiBook}
+
+rs_nyt_link:
+  path: /books/most-popular
+  defaults: { _controller: BookBundle:Book:getPopular }
 
 rs_joindin_events_all:
   path: /events
@@ -98,3 +121,7 @@ rs_joindin_event_talks:
   defaults: { _controller: BookBundle:Joindin:talks }
   requirements:
     index: \d+
+
+rs_books_getexternal:
+  path: /foreign
+  defaults: { _controller: BookBundle:Book:responseData }

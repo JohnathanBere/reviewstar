@@ -31,6 +31,11 @@ class BookAPIController extends FOSRestController
     public function getBooksAction()
     {
         $books = $this->bookRepo->findAll();
+
+        if (empty($books)) {
+            return $this->handleView($this->view("There are no books", 204));
+        }
+
         return $this->handleView($this->view($books, 200));
     }
 
@@ -48,7 +53,7 @@ class BookAPIController extends FOSRestController
             return $this->handleView($this->view($book, 200));
         }
 
-        $view = $this->view("Book not found", 400);
+        $view = $this->view("Book not found", 404);
         return $this->handleView($view);
     }
 
@@ -108,7 +113,7 @@ class BookAPIController extends FOSRestController
         }
 
         if ($book->getUser() != $this->getUser()) {
-            return $this->handleView($this->view("You cannot update someone else's book", 401));
+            return $this->handleView($this->view("You cannot update someone else's book", 403));
         }
         $form = $this->createForm(BookType::class, $book, ["action" => $request->getUri()]);
 
@@ -122,7 +127,7 @@ class BookAPIController extends FOSRestController
 
         if ($form->isValid()) {
             $this->emi->flush();
-            return $this->handleView($this->view("Book updated successfully", 202)
+            return $this->handleView($this->view("Book updated successfully", 200)
                 ->setLocation(
                     $this->generateUrl(
                         "api_book_get_book", ["id" => $book->getId()]
@@ -148,13 +153,13 @@ class BookAPIController extends FOSRestController
         $book = $this->bookRepo->find($id);
 
         if (!$book->getUser() != $this->getUser()) {
-            return $this->handleView($this->view("You cannot delete someone else's book", 401));
+            return $this->handleView($this->view("You cannot delete someone else's book", 403));
         }
 
         if (!empty($book)) {
             $this->emi->remove($book);
             $this->emi->flush();
-            return $this->handleView($this->view("Book deleted", 202));
+            return $this->handleView($this->view("Book deleted", 200));
         }
 
         return $this->handleView($this->view("The book does not exist", 400));
